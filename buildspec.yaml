@@ -23,7 +23,7 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - aws ecs describe-task-definition --task-definition $TASK_DEFINITION | jq '.taskDefinition' > taskdef.json
-      - envsubst < ../terraform/templates/codedeploy/appspec_template.yaml > appspec.yaml
+      - envsubst < terraform/templates/codedeploy/appspec_template.yaml > appspec.yaml
 artifacts:
   files:
     - appspec.yaml
