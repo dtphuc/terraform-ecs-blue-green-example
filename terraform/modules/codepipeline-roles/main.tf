@@ -90,6 +90,21 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
 
     resources = ["*"]
   }
+
+  statement {
+    sid = "AllowCodeStar"
+    effect = "Allow"
+
+    actions = [ 
+      "codestar-connections:GetConnection",
+      "codestar-connections:ListConnections",
+      "codestar-connections:ListInstallationTargets",
+      "codestar-connections:GetInstallationUrl",
+      "codestar-connections:ListTagsForResource" 
+    ]
+
+    resources = [ "*" ]
+  }
 }
 
 resource "aws_iam_role_policy" "managed_codepipeline_policy" {
