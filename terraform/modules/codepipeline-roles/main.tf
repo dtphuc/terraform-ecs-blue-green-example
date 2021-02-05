@@ -97,9 +97,12 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
 
     actions = [ 
       "codestar-connections:GetConnection",
+      "codestar-connections:UseConnection",
       "codestar-connections:ListConnections",
+      "codestar-connections:PassConnection",
       "codestar-connections:ListInstallationTargets",
       "codestar-connections:GetInstallationUrl",
+      "codestar-connections:GetIndividualAccessToken",
       "codestar-connections:ListTagsForResource" 
     ]
 
