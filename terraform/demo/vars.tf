@@ -204,10 +204,3 @@ variable "s3_bucket_name" {
   type    = string
   default = "demo-app-codepipeline"
 }
-
-# CodePipeline
-variable "github_token" {
-  type        = string
-  description = "Github Token to access your repo"
-  default     = "9d7fd9ea8697ab39f5263a80dcb0b60aeabadbd8"
-}

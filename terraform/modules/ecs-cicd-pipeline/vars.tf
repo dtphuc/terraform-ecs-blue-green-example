@@ -444,19 +444,9 @@ variable "codepipeline_name" {
   description = "CodePipeline name"
 }
 
-variable "github_token" {
-  type        = string
-  description = "Github Token to access your repo"
-}
-
 variable "github_repo_name" {
   type        = string
   description = "Github repository name"
-}
-
-variable "github_owner" {
-  type        = string
-  description = "Github Owner"
 }
 
 variable "github_branch" {

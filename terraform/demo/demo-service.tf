@@ -184,9 +184,7 @@ module "demo_service" {
   s3_bucket_name   = aws_s3_bucket.this.id
 
   # Define CodePipeline
-  github_token     = var.github_token
   github_repo_name = "terraform-ecs-blue-green-example"
-  github_owner     = "dtphuc"
   github_branch    = "master"
   codepipeline_name = "demo-service-codepipeline"
 }

@@ -8,19 +8,9 @@ variable "codepipeline_role_arn" {
   description = "CodePipeline Role Arn"
 }
 
-variable "github_token" {
-  type        = string
-  description = "Github token to host your application code"
-}
-
 variable "github_repo_name" {
   type        = string
   description = "Github repo name"
-}
-
-variable "github_owner" {
-  type        = string
-  description = "Github owner"
 }
 
 variable "github_branch" {

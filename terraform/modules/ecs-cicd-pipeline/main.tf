@@ -129,9 +129,7 @@ module "codepipeline" {
   codepipeline_name          = var.codepipeline_name
   s3_bucket_name             = var.s3_bucket_name
   codepipeline_role_arn      = module.pipeline_roles.managed_codepipeline_role_arn
-  github_token               = var.github_token
   github_repo_name           = var.github_repo_name
-  github_owner               = var.github_owner
   github_branch              = var.github_branch
   codebuild_project_name     = module.build_stages.codebuild_project_arn
   codedeploy_app_name        = module.deploy_stages.codedeploy_app_name
