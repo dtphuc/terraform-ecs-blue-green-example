@@ -1,0 +1,25 @@
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "ReadOnly",
+            "Effect": "Allow",
+            "Principal" : {
+                "AWS" : [ 
+                  "${principals_read_only}" 
+                ]
+            },
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:DescribeImageScanFindings"
+            ]
+        }
+    ]
+}

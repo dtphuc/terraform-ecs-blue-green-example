@@ -1,0 +1,43 @@
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Keep recent untagged images",
+            "selection": {
+                "tagStatus": "untagged",
+                "countType": "sinceImagePushed",
+                "countUnit": "days",
+                "countNumber": 1
+            },
+            "action": {
+                "type": "expire"
+            }
+        },
+        {
+            "rulePriority": 3,
+            "description": "Keep images with 'latest' tag prefix",
+            "selection": {
+                "tagStatus": "tagged",
+                "tagPrefixList": ["latest" ],
+                "countType": "imageCountMoreThan",
+                "countNumber": 50
+            },
+            "action": {
+                "type": "expire"
+            }
+        },
+        {
+            "rulePriority": 4,
+            "description": "Keep other recent images",
+            "selection": {
+                "tagStatus": "any",
+                "countType": "sinceImagePushed",
+                "countUnit": "days",
+                "countNumber": 10
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
+}       

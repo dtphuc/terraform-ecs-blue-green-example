@@ -1,0 +1,34 @@
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "FullAccess",
+            "Effect": "Allow",
+            "Principal" : {
+                "AWS" : [ 
+                  "${principals_full_access}" 
+                ]
+            },
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:PutImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:DescribeImageScanFindings",
+                "ecr:StartImageScan",
+                "ecr:BatchDeleteImage",
+                "ecr:SetRepositoryPolicy",
+                "ecr:DeleteRepositoryPolicy",
+                "ecr:DeleteRepository"
+            ]
+        }
+    ]
+}
