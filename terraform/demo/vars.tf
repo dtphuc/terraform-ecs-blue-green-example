@@ -182,21 +182,21 @@ variable "ecs_service_role" {
 }
 
 variable "ecs_service_name" {
-  type = string
+  type        = string
   description = "ECS Service name"
-  default = "demo-service"
+  default     = "demo-service"
 }
 
 variable "container_name" {
-  type = string
+  type        = string
   description = "Container Name"
-  default = "demo-app"
+  default     = "demo-app"
 }
 
 variable "container_port" {
-  type = string
+  type        = string
   description = "Container port"
-  default = 80
+  default     = 80
 }
 
 # S3

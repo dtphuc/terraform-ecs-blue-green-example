@@ -13,11 +13,11 @@ resource "aws_ecs_task_definition" "this" {
     Environment = var.aws_environment
     ManagedBy   = "Terraform"
   }
-  lifecycle {
-    ignore_changes = [
-      container_definitions
-    ]
-  }
+  # lifecycle {
+  #   ignore_changes = [
+  #     container_definitions
+  #   ]
+  # }
 }
 
 # Create ECS Resources

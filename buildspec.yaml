@@ -8,22 +8,22 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --region us-east-1 --no-include-email)
+      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$SERVICE_NAME:latest .
+      - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$SERVICE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$SERVICE_NAME:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - aws ecs describe-task-definition --task-definition $TASK_DEFINITION | jq '.taskDefinition' > taskdef.json
-      - envsubst < terraform/templates/codedeploy/appspec_template.yaml > appspec.yaml
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$SERVICE_NAME:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$SERVICE_NAME:$IMAGE_TAG
+      - aws ecs describe-task-definition --task-definition $SERVICE_NAME --region $REGION | jq .taskDefinition > taskdef.json
+      - envsubst < deployment/appspec_template.yaml > appspec.yaml
 artifacts:
   files:
     - appspec.yaml

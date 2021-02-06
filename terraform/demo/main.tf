@@ -84,15 +84,16 @@ module "defaultSecGroup_PrivateOnly" {
       description : "Allow all inbound access itself. Please DO NOT CHANGE MANUALLY!!"
     },
   ]
-  egress_with_self = [
-    {
-      from_port : "0"
-      to_port : "65535"
-      protocol : "-1"
-      self : true
-      description : "Allow outbound itself. Please DO NOT CHANGE MANUALLY!!"
-    }
-  ]
+  egress_rules           = var.default_secgroups_public_egress_rules
+  # egress_with_self = [
+  #   {
+  #     from_port : "0"
+  #     to_port : "65535"
+  #     protocol : "-1"
+  #     self : true
+  #     description : "Allow outbound itself. Please DO NOT CHANGE MANUALLY!!"
+  #   }
+  # ]
   tags = {
     Name      = "initial-garden-DefaultSecurityGroup-Private"
     ManagedBy = "Terraform"
@@ -113,4 +114,10 @@ resource "aws_s3_bucket" "this" {
     }
   }
   force_destroy = true
+}
+
+resource "aws_s3_bucket_public_access_block" "this" {
+  bucket              = aws_s3_bucket.this.id
+  block_public_acls   = true
+  block_public_policy = true
 }

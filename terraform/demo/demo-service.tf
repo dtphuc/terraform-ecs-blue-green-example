@@ -6,13 +6,17 @@ resource "random_integer" "demo_service_random" {
   max = 99
 }
 
+resource "aws_cloudwatch_log_group" "this" {
+  name = "ecs-logs"
+}
+
 data "template_file" "demo_service" {
   template = file("${path.module}/../templates/ecs_task/ecs_demo_service_task_def.json")
   vars = {
-    container_name  = var.container_name
-    container_image = "${module.demo_service.ecr_repository_url}:latest"
-    awslogs_group   = "/ecs/"
-    awslogs_region  = var.aws_region
+    container_name        = var.container_name
+    container_image       = "${module.demo_service.ecr_repository_url}:latest"
+    awslogs_group         = "ecs-logs"
+    awslogs_region        = var.aws_region
     awslogs_stream_prefix = var.ecs_service_name
   }
 }
@@ -117,7 +121,6 @@ module "demo_service" {
   container_definitions = data.template_file.demo_service.rendered
   ecs_subnet_ids        = module.vpc.private_subnet_ids
   ecs_security_groups = [
-    module.defaultSecGroup_PrivateEgressAll.*.security_group_id[0],
     module.defaultSecGroup_PrivateOnly.*.security_group_id[0]
   ]
   ecs_task_role                  = var.ecs_task_role
@@ -181,10 +184,10 @@ module "demo_service" {
     Function     = "ECSCodeDeploy"
   }
   # Define CodeBuild
-  s3_bucket_name   = aws_s3_bucket.this.id
+  s3_bucket_name = aws_s3_bucket.this.id
 
   # Define CodePipeline
-  github_repo_name = "dtphuc/terraform-ecs-blue-green-example"
-  github_branch    = "master"
+  github_repo_name  = "dtphuc/terraform-ecs-blue-green-example"
+  github_branch     = "master"
   codepipeline_name = "demo-service-codepipeline"
 }

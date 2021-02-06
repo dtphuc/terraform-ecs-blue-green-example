@@ -128,12 +128,13 @@ module "codepipeline" {
   source                     = "../../modules/codepipeline"
   codepipeline_name          = var.codepipeline_name
   s3_bucket_name             = var.s3_bucket_name
+  #codepipeline_role_arn      = "arn:aws:iam::159965030913:role/service-role/AWSCodePipelineServiceRole-ap-southeast-1-deployment"
   codepipeline_role_arn      = module.pipeline_roles.managed_codepipeline_role_arn
   github_repo_name           = var.github_repo_name
   github_branch              = var.github_branch
   codebuild_project_name     = module.build_stages.codebuild_project_arn
   codedeploy_app_name        = module.deploy_stages.codedeploy_app_name
-  codedeploy_deployment_name = module.deploy_stages.codedeploy_deployment_group_id
+  codedeploy_deployment_name = module.deploy_stages.codedeploy_deployment_group_name
 }
 
 module "build_stages" {
@@ -141,13 +142,13 @@ module "build_stages" {
   codebuild_project_name  = "DemoService-Build"
   codebuild_role_arn      = module.pipeline_roles.managed_codebuild_role_arn
   codebuild_agent_image   = "aws/codebuild/standard:3.0"
-  ecr_repository_url      = module.ecr_repository.repository_url
-  ecs_task_definition_arn = module.ecs_service.ecs_task_definition_arn
+  aws_account_id          = var.aws_account_id
+  aws_region              = var.aws_region
+  ecs_service_name        = module.ecs_service.ecs_service_name
   container_name          = var.container_name
   subnet_1                = element(var.ecs_subnet_ids, 0)
   subnet_2                = element(var.ecs_subnet_ids, 1)
-  security_group_1        = element(var.ecs_security_groups, 0)
-  security_group_2        = element(var.ecs_security_groups, 0)
+  security_group_id       = element(var.ecs_security_groups, 0)
 }
 
 module "deploy_stages" {

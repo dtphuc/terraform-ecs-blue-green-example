@@ -26,11 +26,8 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
     sid    = "AllowS3"
     effect = "Allow"
     actions = [
-      "s3:GetObject",
-      "s3:ListBucket",
-      "s3:PutObject"
+      "s3:*"
     ]
-
     resources = [
       "arn:aws:s3:::${var.s3_bucket_name}",
       "arn:aws:s3:::${var.s3_bucket_name}/*"
@@ -44,8 +41,9 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
     actions = [
       "codebuild:BatchGetBuilds",
       "codebuild:StartBuild",
+      "codebuild:BatchGetBuildBatches",
+      "codebuild:StartBuildBatch"
     ]
-
     resources = ["*"]
   }
 
@@ -61,7 +59,6 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
       "codedeploy:GetDeploymentConfig",
       "codedeploy:RegisterApplicationRevision",
     ]
-
     resources = ["*"]
   }
 
@@ -72,7 +69,6 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
     actions = [
       "ecs:*"
     ]
-
     resources = ["*"]
   }
 
@@ -83,7 +79,7 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
     actions = ["iam:PassRole"]
 
     condition {
-      test     = "StringLike"
+      test     = "StringEqualsIfExists"
       values   = ["ecs-tasks.amazonaws.com"]
       variable = "iam:PassedToService"
     }
@@ -98,14 +94,7 @@ data "aws_iam_policy_document" "managed_codepipeline_policy" {
     actions = [ 
       "codestar-connections:GetConnection",
       "codestar-connections:UseConnection",
-      "codestar-connections:ListConnections",
-      "codestar-connections:PassConnection",
-      "codestar-connections:ListInstallationTargets",
-      "codestar-connections:GetInstallationUrl",
-      "codestar-connections:GetIndividualAccessToken",
-      "codestar-connections:ListTagsForResource" 
     ]
-
     resources = [ "*" ]
   }
 }
@@ -145,7 +134,8 @@ data "aws_iam_policy_document" "managed_codebuild_policy" {
     actions = [
       "s3:GetObject",
       "s3:ListBucket",
-      "s3:PutObject"
+      "s3:PutObject",
+      "s3:GetObjectVersion"
     ]
 
     resources = [
@@ -155,16 +145,22 @@ data "aws_iam_policy_document" "managed_codebuild_policy" {
   }
 
   statement {
-    sid    = "AllowECRAuth"
+    sid = "AllowKMS"
     effect = "Allow"
 
-    actions = ["ecr:GetAuthorizationToken"]
+    actions = [
+      "kms:Decrypt",
+      "kms:Encrypt",
+      "kms:GenerateDataKey",
+      "kms:ReEncrypt*",
+      "kms:ListGrants",
+    ]
 
     resources = ["*"]
   }
 
   statement {
-    sid    = "AllowECRUpload"
+    sid    = "AllowECR"
     effect = "Allow"
 
     actions = [
@@ -173,6 +169,7 @@ data "aws_iam_policy_document" "managed_codebuild_policy" {
       "ecr:CompleteLayerUpload",
       "ecr:BatchCheckLayerAvailability",
       "ecr:PutImage",
+      "ecr:GetAuthorizationToken"
     ]
 
     resources = ["*"]

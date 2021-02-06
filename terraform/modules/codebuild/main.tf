@@ -16,13 +16,18 @@ resource "aws_codebuild_project" "this" {
     image_pull_credentials_type = "CODEBUILD"
 
     environment_variable {
-      name  = "REPOSITORY_URI"
-      value = var.ecr_repository_url
+      name  = "AWS_ACCOUNT_ID"
+      value = var.aws_account_id
     }
 
     environment_variable {
-      name  = "TASK_DEFINITION"
-      value = var.ecs_task_definition_arn
+      name  = "REGION"
+      value = var.aws_region
+    }
+
+    environment_variable {
+      name  = "SERVICE_NAME"
+      value = var.ecs_service_name
     }
 
     environment_variable {
@@ -41,13 +46,8 @@ resource "aws_codebuild_project" "this" {
     }
 
     environment_variable {
-      name  = "SECURITY_GROUP_1"
-      value = var.security_group_1
-    }
-
-    environment_variable {
-      name  = "SECURITY_GROUP_2"
-      value = var.security_group_2
+      name  = "SECURITY_GROUP_ID"
+      value = var.security_group_id
     }
   }
 

@@ -12,3 +12,8 @@ output "codedeploy_deployment_group_id" {
   value       = aws_codedeploy_deployment_group.this.id
   description = "Application name and deployment group name."
 }
+
+output "codedeploy_deployment_group_name" {
+  value       = aws_codedeploy_deployment_group.this.deployment_group_name
+  description = "Deploymant group name"
+}

@@ -14,14 +14,19 @@ variable "codebuild_agent_image" {
   default     = "aws/codebuild/standard:3.0"
 }
 
-variable "ecr_repository_url" {
+variable "ecs_service_name" {
   type        = string
-  description = "ECR Repository URL"
+  description = "ECS Service Name"
 }
 
-variable "ecs_task_definition_arn" {
+variable "aws_account_id" {
   type        = string
-  description = "ECR Task Definition Arn"
+  description = "AWS Account ID"
+}
+
+variable "aws_region" {
+  type        = string
+  description = "AWS Region"
 }
 
 variable "container_name" {
@@ -34,7 +39,7 @@ variable "subnet_1" {
   description = "The second subnet ECS to run its task"
 }
 
-variable "security_group_1" {
+variable "security_group_id" {
   type        = string
   description = "The security groups put to ECS service"
 }
@@ -42,9 +47,4 @@ variable "security_group_1" {
 variable "subnet_2" {
   type        = string
   description = "The second subnet ECS to run its task"
-}
-
-variable "security_group_2" {
-  type        = string
-  description = "The security groups put to ECS service"
 }
