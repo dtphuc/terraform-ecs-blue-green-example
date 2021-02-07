@@ -50,23 +50,6 @@ module "defaultSecGroup_Public" {
   }
 }
 
-module "defaultSecGroup_PrivateEgressAll" {
-  source = "../modules/security-groups"
-
-  count                  = var.create_security_groups ? 1 : 0
-  sec_groups_name        = "initial-garden-DefaultSecurityGroup-PrivateEgressAll"
-  sec_groups_description = "Default Security Group with Egress All"
-  vpc_id                 = module.vpc.vpc_id
-  revoke_rules_on_delete = var.revoke_rules_on_delete
-  ingress_cidr_blocks    = [var.aws_vpc_cidr]
-  egress_rules           = var.default_secgroups_public_egress_rules
-  egress_cidr_blocks     = var.egress_cidr_blocks
-  tags = {
-    Name      = "initial-garden-DefaultSecurityGroup-PrivateEgressAll"
-    ManagedBy = "Terraform"
-  }
-}
-
 module "defaultSecGroup_PrivateOnly" {
   source = "../modules/security-groups"
 
@@ -84,7 +67,7 @@ module "defaultSecGroup_PrivateOnly" {
       description : "Allow all inbound access itself. Please DO NOT CHANGE MANUALLY!!"
     },
   ]
-  egress_rules           = var.default_secgroups_public_egress_rules
+  egress_rules = var.default_secgroups_public_egress_rules
   # egress_with_self = [
   #   {
   #     from_port : "0"

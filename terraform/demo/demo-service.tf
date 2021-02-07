@@ -168,13 +168,15 @@ module "demo_service" {
   alarm_low_threshold            = "30"
 
   # Define Deploy
-  create_app            = true
-  aws_account_id        = var.aws_account_id
-  ca_application_name   = "demo-service-codedeploy"
-  deployment_group_name = "demo-service-codedeploy"
-  auto_rollback         = true
-  rollback_events       = ["DEPLOYMENT_FAILURE"]
-  action_on_timeout     = "CONTINUE_DEPLOYMENT"
+  create_app = true
+  # aws_account_id        = var.aws_account_id
+  aws_account_id         = data.aws_caller_identity.current.account_id
+  ca_application_name    = "demo-service-codedeploy"
+  deployment_group_name  = "demo-service-codedeploy"
+  deployment_config_name = var.deployment_config_name
+  auto_rollback          = true
+  rollback_events        = ["DEPLOYMENT_FAILURE"]
+  action_on_timeout      = "CONTINUE_DEPLOYMENT"
   #wait_time_in_minutes             = 5
   termination_wait_time_in_minutes = 10
   description                      = "CodeDeploy for Blue/Green deployment"

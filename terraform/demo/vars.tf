@@ -5,11 +5,10 @@ variable "create_vpc" {
   default     = true
 }
 
-variable "aws_account_id" {
-  description = "AWS AccountID"
-  type        = string
-  default     = "159965030913"
-}
+# Use this data source to get the access to Account ID, User ID and ARN in 
+# which Terraform is authorized.
+data "aws_caller_identity" "current" {}
+
 variable "aws_region" {
   type        = string
   description = "(optional) describe your variable"
@@ -197,6 +196,19 @@ variable "container_port" {
   type        = string
   description = "Container port"
   default     = 80
+}
+
+# Values can be:
+/*
+* CodeDeployDefault.ECSLinear10PercentEvery1Minutes
+* CodeDeployDefault.ECSLinear10PercentEvery3Minutes 
+* CodeDeployDefault.ECSCanary10Percent5Minutes
+* CodeDeployDefault.ECSCanary10Percent15Minutes
+* CodeDeployDefault.ECSAllAtOnce (Default)
+*/
+variable "deployment_config_name" {
+  description = "Name of the codedeploy config to use with deployment group"
+  default     = "CodeDeployDefault.ECSCanary10Percent15Minutes"
 }
 
 # S3

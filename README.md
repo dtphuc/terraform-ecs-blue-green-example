@@ -1,6 +1,13 @@
 # ECS Blue/Green Deployment with Terraform
 
-## Terraform Project Layout
+## Introduction
+
+This project will provision fully CI/CD Pipeline as Code using Terraform, deploy simple Application in AWS ECS with Blue/Green deployment model.
+The pipeline will include Source/Build/Deploy. The Build Phase will use CodeBuild with Source from Github, Deploy phase will use CodeDeploy to support ECS Blue/Green deployment model. CodePipeline will work as orchestrator and trigger whenever the code changes is commited to Github.
+
+This is simple CI/CD pipeline as Code with leveraging AWS native solutions. Any comments to improve are welcomed.
+
+## Project Structure
 
 ```sh
 .
@@ -12,14 +19,12 @@
 ├── buildspec.yaml
 ├── deployment
 │   └── appspec_template.yaml
-├── taskdef.json
 ├── terraform
 │   ├── demo
 │   │   ├── demo-service.tf
 │   │   ├── ecs.tf
 │   │   ├── main.tf
 │   │   ├── output.tf
-│   │   ├── roles.tf
 │   │   └── vars.tf
 │   ├── modules
 │   │   ├── alb
@@ -32,7 +37,6 @@
 │   │   ├── ecs-cluster
 │   │   ├── ecs-roles
 │   │   ├── ecs-service
-│   │   ├── ecs-with-bluegreen
 │   │   ├── iam-roles
 │   │   ├── security-groups
 │   │   └── vpc
@@ -43,7 +47,7 @@
 ├── terraform.tfstate
 └── terraform.tfstate.backup
 
-23 directories, 15 files
+22 directories, 13 files
 ```
 
 ## Usage

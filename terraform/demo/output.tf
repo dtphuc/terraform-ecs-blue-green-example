@@ -40,7 +40,24 @@ output "defaultSecGroup_Public" {
   value       = module.defaultSecGroup_Public.*.security_group_id
 }
 
-output "defaultSecGroup_PrivateEgressAll" {
+output "defaultSecGroup_PrivateOnly" {
   description = "Initial Garden Default Security Group with Egress All"
-  value       = module.defaultSecGroup_PrivateEgressAll.*.security_group_id
+  value       = module.defaultSecGroup_PrivateOnly.*.security_group_id
+}
+
+# ALB Outputs
+output "loadbalancer_dns_name" {
+  description = "The DNS name of the load balancer."
+  value       = module.demo_service.lb_dns_name
+}
+
+output "target_group_arns" {
+  description = "ARNs of the target group."
+  value       = module.demo_service.target_group_arns
+}
+
+# CodePipeline Outputs
+output "ecr_repository_url" {
+  description = "The ECR Repository URL"
+  value       = module.demo_service.ecr_repository_url
 }
