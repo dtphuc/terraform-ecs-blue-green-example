@@ -208,7 +208,7 @@ variable "container_port" {
 */
 variable "deployment_config_name" {
   description = "Name of the codedeploy config to use with deployment group"
-  default     = "CodeDeployDefault.ECSCanary10Percent15Minutes"
+  default     = "CodeDeployDefault.ECSAllAtOnce"
 }
 
 # S3
